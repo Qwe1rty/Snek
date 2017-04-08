@@ -1,11 +1,6 @@
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
@@ -81,18 +76,20 @@ public class SnakePanel extends JPanel {
 		
 		// Draw borders of the game
 		g.setColor(Color.BLACK);
-//		g.drawRect(TLx - 2, TLy - 2, TRx + 2, TRy);
-//		g.drawRect(TLx - 2, TLy - 2, BLx, BLy + 2);
-//		g.drawRect(BLx - 2, BLy + 2, BRx + 2, BRy);
-//		g.drawRect(BRx + 2, BRy + 2, TRx, TRy - 2);
-//		
-//		g.setColor(Color.PINK);
-		g.drawLine(TLx, TLy, TRx, TRy);
-		g.drawLine(TLx, TLy, BLx, BLy);
-		g.drawLine(BLx, BLy, BRx, BRy);
-		g.drawLine(TRx, TRy, BRx, BRy);
+//		g.fillRect(x, y, width, height);
+		g.fillRect(TLx - 2, TLy - 2, gameWidth + 2, 2);
+		g.fillRect(TLx - 2, TLy - 2, 2, gameHeight + 2);
+		g.fillRect(BLx - 2, BLy, gameWidth + 2, 2);
+		g.fillRect(TRx, TRy - 2, 2, gameHeight + 4);
+		
+//		g.setColor(Color.RED);
+//		g.drawLine(TLx, TLy, TRx, TRy);
+//		g.drawLine(TLx, TLy, BLx, BLy);
+//		g.drawLine(BLx, BLy, BRx, BRy);
+//		g.drawLine(TRx, TRy, BRx, BRy);
 		
 		// DEBUG INFO
+		g.setColor(Color.BLACK);
 		g.drawString("Panel width: " + String.valueOf(panelWidth), 10, 18);
 		g.drawString("Panel height: " + String.valueOf(panelHeight), 10, 38);
 		g.drawString("Game width: " + String.valueOf(gameWidth), 10, 58);

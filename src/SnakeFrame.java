@@ -3,7 +3,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 public class SnakeFrame extends JFrame implements WindowListener {
@@ -15,13 +14,17 @@ public class SnakeFrame extends JFrame implements WindowListener {
 	final static double MIN_HEIGHT = 85.000;
 	final static double ASPECT_RATIO = MIN_WIDTH / MIN_HEIGHT;
 	
+	// Because java sucks
 	final static int HORIZONTAL_OFFSET = 18; 
 	final static int VERTICAL_OFFSET = 48;
 	
 	// Default scaling of 10
 	final static int INITIAL_WIDTH = 660;
 	final static int INITIAL_HEIGHT = 935;
+	
+	// Frame management
 	final static int MAX_FPS = 30;
+	final static int OPTIMAL_DELAY = 1000 / MAX_FPS;
 
 	public static void main(String[] args) throws Exception {
 		try {UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());} catch(Exception e) {}
@@ -29,6 +32,7 @@ public class SnakeFrame extends JFrame implements WindowListener {
 		frame.setVisible(true);
 	}
 
+	// CONSTRUCTOR
 	public SnakeFrame(String title) {
 
 		// Frame initialization
@@ -52,21 +56,27 @@ public class SnakeFrame extends JFrame implements WindowListener {
 				while (true) {
 					try {
 						
+						// Initial time
+						long startTime = System.nanoTime();
+						
 						// Get screen dimensions
 						Dimension screenSize = getSize();
 						int width = ((int) screenSize.getWidth()) - HORIZONTAL_OFFSET;
 						int height = ((int) screenSize.getHeight()) - VERTICAL_OFFSET;
 						
+						// Do game updates
 						panel.setBounds(0, 0, width, height);
 						panel.updateGame(width, height, frameCount);
 						panel.render();
-
-						// Placeholder timer
-						try {Thread.sleep(1000 / MAX_FPS);} catch (Exception e) {}
 						
 						// Increment frame counter
 						if (frameCount == Long.MAX_VALUE) frameCount = 0;
 						else frameCount++;
+						
+						// Finished time
+						long endTime = System.nanoTime();
+						long timeDifferenceMillis = (endTime - startTime) / 1000000;
+						try {Thread.sleep(OPTIMAL_DELAY - timeDifferenceMillis);} catch (Exception e) {}
 						
 					} catch (Exception e) {}
 				}
