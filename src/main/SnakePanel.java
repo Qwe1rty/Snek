@@ -1,15 +1,15 @@
+package main;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
 
 import javax.swing.JPanel;
 
+import game.*;
+
 public class SnakePanel extends JPanel {
 	
-	private static final int PLAYER_ONE_UP = KeyEvent.VK_W;
-	private static final int PLAYER_ONE_DOWN = KeyEvent.VK_S;
-	private static final int PLAYER_ONE_LEFT = KeyEvent.VK_A;
-	private static final int PLAYER_ONE_RIGHT = KeyEvent.VK_D;
+	// Panel that displays the game
+	private GamePanel gamePanel;
 	
 	private final double minWidth;
 	private final double minHeight;
@@ -37,6 +37,10 @@ public class SnakePanel extends JPanel {
 		this.minWidth = minWidth;
 		this.minHeight = minHeight;
 		this.aspectRatio = this.minWidth / this.minHeight;
+		
+//		gamePanel = new GamePanel(minWidth, minHeight);
+		// TODO IMPLEMENT MAINMENUPANEL
+		add(gamePanel);
 	}
 	
 	public void updateGame(int panelWidth, int panelHeight, long frameCount) {
@@ -62,8 +66,15 @@ public class SnakePanel extends JPanel {
 		BRx = TRx;
 		BRy = BLy;
 		
+		// Set boundaries of the game panel
+		gamePanel.setBounds(TLx, TLy, gameWidth, gameHeight);
+		
+		// Update game panel
+		gamePanel.updateGame(scalingSize, frameCount);
+		gamePanel.render();
+		
 	}
-
+	
 	public void render() {
 		// Forcibly updates the game panel
 		repaint();
@@ -74,9 +85,12 @@ public class SnakePanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
+		// Draws game background (grey is placeholder)
+		g.setColor(Color.LIGHT_GRAY);
+		g.fillRect(0, 0, panelWidth, panelHeight);
+		
 		// Draw borders of the game
 		g.setColor(Color.BLACK);
-//		g.fillRect(x, y, width, height);
 		g.fillRect(TLx - 2, TLy - 2, gameWidth + 2, 2);
 		g.fillRect(TLx - 2, TLy - 2, 2, gameHeight + 2);
 		g.fillRect(BLx - 2, BLy, gameWidth + 2, 2);
